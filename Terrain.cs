@@ -11,16 +11,14 @@ namespace Sharp_Kingdoms
             SpriteBatch();
         }
         // Tiles
-        int TileWidth = 32;
-        int TileHeight = 16;
-        int TileVariations = 1;
+        protected int TileWidth = 32;
+        protected int TileHeight = 16;
+        protected int TileVariations = 1;
 
         // Chunks
-        static int ChunkHeight = 32;
-        static int ChunkWidth = 32;
-        int ChunkSize = ChunkHeight * ChunkWidth;
-        int IsoX = 400;
-        int IsoY = 0;
+        protected static int ChunkHeight = 32;
+        protected static int ChunkWidth = 32;
+        protected int ChunkSize = ChunkHeight * ChunkWidth;
 
         // Rows and Columns
         static int Cols = ChunkWidth;
@@ -70,8 +68,8 @@ namespace Sharp_Kingdoms
                 {
                     TerrainBatch.Add(
                         TileQuads[TerrainChunk[i, o]],
-                        (-g.ViewX) + IsoX + (i - o) * TileWidth * 0.5f,
-                        (-g.ViewY) + IsoY + (i + o) * TileHeight * 0.5f
+                        (-g.ViewX) + g.IsoX + (i - o) * TileWidth * 0.5f,
+                        (-g.ViewY) + g.IsoY + (i + o) * TileHeight * 0.5f
                         );
                 }
             }
@@ -81,26 +79,6 @@ namespace Sharp_Kingdoms
         public void DrawTerrain()
         {
             Graphics.Draw(TerrainBatch, 0, 0, 0, 1, 1);
-        }
-
-        public float ScreenToIsoX(float globalX, float globalY)
-        {
-            return (((globalX - IsoX) / (TileWidth / 2)) + ((globalY - IsoY) / (TileHeight / 2))) / 2;
-        }
-
-        public float ScreenToIsoY(float globalX, float globalY)
-        {
-            return (((globalY - IsoY) / (TileHeight / 2)) - ((globalX - IsoX) / (TileWidth / 2))) / 2;
-        }
-
-        public float IsoToScreenX(float x, float y)
-        {
-            return IsoX + ((x - y) * TileWidth / 2);
-        }
-
-        public float IsoToScreenY(float x, float y)
-        {
-            return IsoY + ((x + y) * TileHeight / 2);
         }
     }
 }

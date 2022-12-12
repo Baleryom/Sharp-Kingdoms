@@ -16,7 +16,7 @@
         public override void Draw()
         {
             g.Terrain.DrawTerrain();
-            Graphics.Draw(g.TerrainImage, g.Terrain.IsoToScreenX(g.LocalX, g.LocalY) - g.ViewX, g.Terrain.IsoToScreenY(g.LocalX, g.LocalY) - g.ViewY);
+            Graphics.Draw(g.TerrainImage, g.Iso.IsoToScreenX(g.LocalX, g.LocalY) - g.ViewX, g.Iso.IsoToScreenY(g.LocalX, g.LocalY) - g.ViewY);
 
             Graphics.Print("\n LocalX: " + g.LocalX +
                            "\n LocalY: " + g.LocalY +
@@ -38,8 +38,10 @@
             g.MouseX = 0;
             g.MouseY = 0;
 
+            g.Iso = new Isometric();
             // It will generate the terrain
             g.Terrain = new Terrain();
+
         }
 
         public override void Update(float dt)
@@ -71,8 +73,8 @@
             g.MouseX = Mouse.GetPosition().X;
             g.MouseY = Mouse.GetPosition().Y;
 
-            g.LocalX = Round(g.Terrain.ScreenToIsoX(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
-            g.LocalY = Round(g.Terrain.ScreenToIsoY(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
+            g.LocalX = Round(g.Iso.ScreenToIsoX(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
+            g.LocalY = Round(g.Iso.ScreenToIsoY(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
         }
 
         private float Round(double n, int deci)
