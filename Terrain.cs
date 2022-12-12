@@ -78,7 +78,7 @@ namespace Sharp_Kingdoms
 
         public void DrawTerrain()
         {
-            Graphics.Draw(TerrainBatch, 0, 0, 0, 1, 1);
+            Graphics.Draw(TerrainBatch, -g.ViewX, -g.ViewY, 0, 1, 1);
         }
     }
 }

@@ -64,11 +64,11 @@
                 g.ViewX += 5;
             }
 
-            if (Keyboard.IsDown(KeyConstant.Up) || Keyboard.IsDown(KeyConstant.Down) || Keyboard.IsDown(KeyConstant.Left) || Keyboard.IsDown(KeyConstant.Right)
-                 || Keyboard.IsDown(KeyConstant.W) || Keyboard.IsDown(KeyConstant.S) || Keyboard.IsDown(KeyConstant.D) || Keyboard.IsDown(KeyConstant.A))
-            {
-                g.Terrain.UpdateTerrain();
-            }
+            //if (Keyboard.IsDown(KeyConstant.Up) || Keyboard.IsDown(KeyConstant.Down) || Keyboard.IsDown(KeyConstant.Left) || Keyboard.IsDown(KeyConstant.Right)
+            //     || Keyboard.IsDown(KeyConstant.W) || Keyboard.IsDown(KeyConstant.S) || Keyboard.IsDown(KeyConstant.D) || Keyboard.IsDown(KeyConstant.A))
+            //{
+            //    g.Terrain.UpdateTerrain();
+            //}
 
             g.MouseX = Mouse.GetPosition().X;
             g.MouseY = Mouse.GetPosition().Y;
