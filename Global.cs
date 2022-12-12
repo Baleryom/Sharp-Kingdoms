@@ -34,6 +34,8 @@ namespace Sharp_Kingdoms
         public float MouseY { get; set; }
         public float LocalX { get; set; }
         public float LocalY { get; set; }
+        public float ScaleX { get; set; }
+        public float ScaleY { get; set; }
         public int IsoX { get; set; } = 400;
         public int IsoY { get; set; } = 0;
         // Images

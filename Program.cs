@@ -7,6 +7,9 @@
     public class Program : Scene
     {
         Global g = Global.Instance;
+        float nextTime;
+        float minDt;
+
         static void Main(string[] args)
         {
             Boot.Init();
@@ -26,27 +29,42 @@
                            "\n MouseY: " + g.MouseY +
                            "\n Current FPS: " + Timer.GetFPS()
                             );
+
+            // Limit the FPS to 60
+            var currentTime = Timer.GetTime();
+            if (nextTime <= currentTime)
+            {
+                nextTime = currentTime;
+                return;
+            }
+            Timer.Sleep(nextTime - currentTime);
         }
 
         public override void Load()
         {
-            double version = 0.001;
-            Window.SetTitle("Sharp Empires " + "v" + version.ToString());
+            minDt = 1 / 60;
+            nextTime = Timer.GetTime();
+            WindowSettings settings = new WindowSettings();
+            settings.vsync = true;
+            Love.Window.SetMode(800, 600, settings);
+            Window.SetTitle("Sharp Empires");
             g.TerrainImage = Graphics.NewImage(@"..\..\..\Assets\Tiles\collection148.png");
             g.ViewX = 0;
             g.ViewY = 0;
             g.MouseX = 0;
             g.MouseY = 0;
+            g.ScaleX = 1;
+            g.ScaleY = 1;
 
             g.Iso = new Isometric();
             // It will generate the terrain
             g.Terrain = new Terrain();
-
         }
 
         public override void Update(float dt)
         {
             base.Update(dt);
+            nextTime += minDt;
             if (Keyboard.IsDown(KeyConstant.Up) || Keyboard.IsDown(KeyConstant.W))
             {
                 g.ViewY -= 5;
@@ -75,6 +93,21 @@
 
             g.LocalX = Round(g.Iso.ScreenToIsoX(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
             g.LocalY = Round(g.Iso.ScreenToIsoY(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
+        }
+
+        public override void WheelMoved(int x, int y)
+        {
+            base.WheelMoved(x, y);
+            if (y > 0 && g.ScaleX < 1)
+            {
+                g.ScaleX += 0.05f;
+                g.ScaleY += 0.5f;
+            }
+            if (y < 0 && g.ScaleY > 0.2)
+            {
+                g.ScaleX -= 0.05f;
+                g.ScaleY -= 0.05f;
+            }
         }
 
         private float Round(double n, int deci)
