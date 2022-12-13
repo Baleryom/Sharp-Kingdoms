@@ -36,13 +36,18 @@ namespace Sharp_Kingdoms
         public float LocalY { get; set; }
         public float ScaleX { get; set; }
         public float ScaleY { get; set; }
+        // Tiles
+        public int TileWidth { get; set; } = 30;
+        public int TileHeight { get; set; } = 16;
         public int IsoX { get; set; } = 400;
-        public int IsoY { get; set; } = 0;
+        public int IsoY { get; set; } = 100;
+        public int ChunkWidth { get; set; }
+        public int ChunkHeight { get; set; }
         // Images
         public Image TerrainImage { get; set; }
         // Classes
         public Isometric Iso { get; set; }
-        
         public Terrain Terrain { get; set; }
+        public Objects Objects { get; set; }
     }
 }

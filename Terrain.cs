@@ -9,15 +9,15 @@ namespace Sharp_Kingdoms
         {
             GenerateTerrainChunk();
             SpriteBatch();
+            // Load global variables
+            g.ChunkHeight = ChunkHeight;
+            g.ChunkWidth = ChunkWidth;
         }
-        // Tiles
-        protected int TileWidth = 32;
-        protected int TileHeight = 16;
         protected int TileVariations = 1;
 
         // Chunks
-        protected static int ChunkHeight = 32;
-        protected static int ChunkWidth = 32;
+        protected static int ChunkHeight = 80;
+        protected static int ChunkWidth = 80;
         protected int ChunkSize = ChunkHeight * ChunkWidth;
 
         // Rows and Columns
@@ -28,7 +28,8 @@ namespace Sharp_Kingdoms
         int[,] TerrainChunk = new int[Cols, Rows];
 
         // Tile Quads
-        Quad[] TileQuads = new Quad[8];
+        Quad[] TileQuads = new Quad[11];
+        int[] TileOffsets = new int[11];
 
         // Terrain Batch
         SpriteBatch TerrainBatch;
@@ -46,15 +47,30 @@ namespace Sharp_Kingdoms
 
         public void SpriteBatch()
         {
-            var terrainImage = Graphics.NewImage(@"..\..\..\Assets\Tiles\terrain_strip2.png");
-            TileQuads[0] = Graphics.NewQuad(0 * TileWidth, 0 * TileHeight, TileWidth - 2, TileHeight, terrainImage.GetWidth(), terrainImage.GetHeight());
-            TileQuads[1] = Graphics.NewQuad(1 * (TileWidth - 2), 0 * TileHeight, TileWidth - 2, TileHeight, terrainImage.GetWidth(), terrainImage.GetHeight());
-            TileQuads[2] = Graphics.NewQuad(2 * (TileWidth - 2), 0 * TileHeight, TileWidth - 2, TileHeight, terrainImage.GetWidth(), terrainImage.GetHeight());
-            TileQuads[3] = Graphics.NewQuad(3 * (TileWidth - 2), 0 * TileHeight, TileWidth - 2, TileHeight, terrainImage.GetWidth(), terrainImage.GetHeight());
-            TileQuads[4] = Graphics.NewQuad(4 * (TileWidth - 2), 0 * TileHeight, TileWidth - 2, TileHeight, terrainImage.GetWidth(), terrainImage.GetHeight());
-            TileQuads[5] = Graphics.NewQuad(5 * (TileWidth - 2), 0 * TileHeight, TileWidth - 2, TileHeight, terrainImage.GetWidth(), terrainImage.GetHeight());
-            TileQuads[6] = Graphics.NewQuad(6 * (TileWidth - 2), 0 * TileHeight, TileWidth - 2, TileHeight, terrainImage.GetWidth(), terrainImage.GetHeight());
-            TileQuads[7] = Graphics.NewQuad(7 * (TileWidth - 2), 0 * TileHeight, TileWidth - 2, TileHeight, terrainImage.GetWidth(), terrainImage.GetHeight());
+            var terrainImage = Graphics.NewImage(@"..\..\..\Assets\Tiles\image_strip.png");
+            var imageW = terrainImage.GetWidth();
+            var imageH = terrainImage.GetHeight();
+            TileOffsets[1] = 0;
+            TileOffsets[2] = 0;
+            TileOffsets[3] = 0;
+            TileOffsets[4] = 0;
+            TileOffsets[5] = 0;
+            TileOffsets[6] = 0;
+            TileOffsets[7] = 0;
+            TileOffsets[8] = 0;
+            TileOffsets[9] = 0;
+            TileOffsets[10] = 0;
+            TileQuads[0] = Graphics.NewQuad(0, 1850, 30, 16, imageW, imageH);
+            TileQuads[1] = Graphics.NewQuad(0, 1866, 30, 16, imageW, imageH);
+            TileQuads[2] = Graphics.NewQuad(30, 1850, 30, 16, imageW, imageH);
+            TileQuads[3] = Graphics.NewQuad(0, 1882, 30, 16, imageW, imageH);
+            TileQuads[4] = Graphics.NewQuad(30, 1866, 30, 16, imageW, imageH);
+            TileQuads[5] = Graphics.NewQuad(0, 1898, 30, 16, imageW, imageH);
+            TileQuads[6] = Graphics.NewQuad(60, 1850, 30, 16, imageW, imageH);
+            TileQuads[7] = Graphics.NewQuad(30, 1882, 30, 16, imageW, imageH);
+            TileQuads[8] = Graphics.NewQuad(0, 1914, 30, 16, imageW, imageH);
+            TileQuads[9] = Graphics.NewQuad(60, 1866, 30, 16, imageW, imageH);
+            TileQuads[10] = Graphics.NewQuad(420, 1850, 30, 107, imageW, imageH);
             TerrainBatch = Graphics.NewSpriteBatch(terrainImage, ChunkWidth * ChunkHeight, SpriteBatchUsage.Static);
             UpdateTerrain();
         }
@@ -62,14 +78,14 @@ namespace Sharp_Kingdoms
         public void UpdateTerrain()
         {
             TerrainBatch.Clear();
-            for (int i = ChunkWidth - 1; i >= 0; i--)
+            for (int i = 0; i >= ChunkWidth - 1; i++)
             {
-                for (int o = ChunkHeight - 1; o >= 0; o--)
+                for (int o = 0; o >= ChunkHeight - 1; o++)
                 {
                     TerrainBatch.Add(
                         TileQuads[TerrainChunk[i, o]],
-                        (-g.ViewX) + g.IsoX + (i - o) * TileWidth * 0.5f,
-                        (-g.ViewY) + g.IsoY + (i + o) * TileHeight * 0.5f
+                        (-g.ViewX) + g.IsoX + (i - o) * g.TileWidth * 0.5f,
+                        (-g.ViewY) + g.IsoY + (i + o) * g.TileHeight * 0.5f - TileOffsets[TerrainChunk[i, o]]
                         );
                 }
             }

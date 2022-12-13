@@ -18,9 +18,11 @@
 
         public override void Draw()
         {
+            
+            Graphics.Draw(g.TerrainImage, g.Iso.IsoToScreenX(g.LocalX, g.LocalY) - g.ViewX, g.Iso.IsoToScreenY(g.LocalX, g.LocalY) - g.ViewY,0,g.ScaleX);
             g.Terrain.DrawTerrain();
-            Graphics.Draw(g.TerrainImage, g.Iso.IsoToScreenX(g.LocalX, g.LocalY) - g.ViewX, g.Iso.IsoToScreenY(g.LocalX, g.LocalY) - g.ViewY);
-
+            g.Objects.DrawObjects();
+            
             Graphics.Print("\n LocalX: " + g.LocalX +
                            "\n LocalY: " + g.LocalY +
                            "\n ViewX: " + g.ViewX +
@@ -46,7 +48,10 @@
             nextTime = Timer.GetTime();
             WindowSettings settings = new WindowSettings();
             settings.vsync = true;
-            Love.Window.SetMode(800, 600, settings);
+            // in full screen if it crashes the screen is blocked needs to restart pc
+            // settings.fullscreenType = FullscreenType.DeskTop;
+            //  settings.Fullscreen = true;
+            Love.Window.SetMode(1680, 1050, settings);
             Window.SetTitle("Sharp Empires");
             g.TerrainImage = Graphics.NewImage(@"..\..\..\Assets\Tiles\collection148.png");
             g.ViewX = 0;
@@ -59,6 +64,8 @@
             g.Iso = new Isometric();
             // It will generate the terrain
             g.Terrain = new Terrain();
+            g.Objects = new Objects();
+            g.Objects.SetupObjects();
         }
 
         public override void Update(float dt)
@@ -100,13 +107,13 @@
             base.WheelMoved(x, y);
             if (y > 0 && g.ScaleX < 1)
             {
-                g.ScaleX += 0.05f;
-                g.ScaleY += 0.5f;
+                g.ScaleX += 0.1f;
+                g.ScaleY += 0.1f;
             }
-            if (y < 0 && g.ScaleY > 0.2)
+            if (y < 0 && g.ScaleY > 0.3)
             {
-                g.ScaleX -= 0.05f;
-                g.ScaleY -= 0.05f;
+                g.ScaleX -= 0.1f;
+                g.ScaleY -= 0.1f;
             }
         }
 
