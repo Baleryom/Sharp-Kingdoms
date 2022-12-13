@@ -3,6 +3,7 @@
     using Love;
     using Sharp_Kingdoms;
     using System;
+    using System.Numerics;
 
     public class Program : Scene
     {
@@ -43,7 +44,6 @@
 
         public override void Load()
         {
-            minDt = 1 / 60;
             nextTime = Timer.GetTime();
             WindowSettings settings = new WindowSettings();
             settings.vsync = true;
@@ -51,6 +51,7 @@
             // settings.fullscreenType = FullscreenType.DeskTop;
             //  settings.Fullscreen = true;
             Love.Window.SetMode(1680, 1050, settings);
+            minDt = 1 / 60;
             Window.SetTitle("Sharp Empires");
             g.TerrainImage = Graphics.NewImage(@"..\..\..\Assets\Tiles\collection148.png");
             g.ViewX = 0;
@@ -69,68 +70,17 @@
         {
             base.Update(dt);
             nextTime += minDt;
-            if (Keyboard.IsDown(KeyConstant.Up) || Keyboard.IsDown(KeyConstant.W))
-            {
-                g.ViewY -= 5;
-            }
-            if (Keyboard.IsDown(KeyConstant.Down) || Keyboard.IsDown(KeyConstant.S))
-            {
-                g.ViewY += 5;
-            }
-            if (Keyboard.IsDown(KeyConstant.Left) || Keyboard.IsDown(KeyConstant.A))
-            {
-                g.ViewX -= 5;
-            }
-            if (Keyboard.IsDown(KeyConstant.Right) || Keyboard.IsDown(KeyConstant.D))
-            {
-                g.ViewX += 5;
-            }
-            if (Keyboard.IsDown(KeyConstant.Escape))
-            {
-                Event.Quit();
-            }
-            if (Mouse.IsDown(0))
-            {
-                if (g.LocalX > 0 && g.LocalY > 0 && g.LocalX < g.ChunkWidth && g.LocalY < g.ChunkHeight)
-                {
-                    g.Terrain.TerrainChunk[(int)(Math.Floor(g.LocalX)), (int)(Math.Floor(g.LocalY))] = 9;
-                    g.Terrain.UpdateTerrain();
-                }
-            }
-
-            //if (Keyboard.IsDown(KeyConstant.Up) || Keyboard.IsDown(KeyConstant.Down) || Keyboard.IsDown(KeyConstant.Left) || Keyboard.IsDown(KeyConstant.Right)
-            //     || Keyboard.IsDown(KeyConstant.W) || Keyboard.IsDown(KeyConstant.S) || Keyboard.IsDown(KeyConstant.D) || Keyboard.IsDown(KeyConstant.A))
-            //{
-            //    g.Terrain.UpdateTerrain();
-            //}
-
-            g.MouseX = Mouse.GetPosition().X;
-            g.MouseY = Mouse.GetPosition().Y;
-
-            g.LocalX = Round(g.Iso.ScreenToIsoX(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
-            g.LocalY = Round(g.Iso.ScreenToIsoY(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
-
+            Utils.GetMousePositions();
+            g.LocalX = Utils.Round(g.Iso.ScreenToIsoX(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
+            g.LocalY = Utils.Round(g.Iso.ScreenToIsoY(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
+            g.Iso.Update();
+            g.Terrain.Update();
         }
 
         public override void WheelMoved(int x, int y)
         {
             base.WheelMoved(x, y);
-            if (y > 0 && g.ScaleX < 1)
-            {
-                g.ScaleX += 0.1f;
-                g.ScaleY += 0.1f;
-            }
-            if (y < 0 && g.ScaleY > 0.3)
-            {
-                g.ScaleX -= 0.1f;
-                g.ScaleY -= 0.1f;
-            }
-        }
-
-        private float Round(double n, int deci)
-        {
-            deci = (int)Math.Pow(10, deci);
-            return (float)(Math.Floor(n * deci + 0.5) / deci);
+            g.Iso.Scale(y);
         }
     }
 }

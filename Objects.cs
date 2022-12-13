@@ -75,6 +75,5 @@ namespace Sharp_Kingdoms
             Graphics.Draw(canvas, -g.ViewX - ogX, -g.ViewY - ogY);
             Graphics.SetBlendMode(BlendMode.Alpha);
         }
-
     }
 }
