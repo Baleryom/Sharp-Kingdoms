@@ -66,6 +66,18 @@
             g.Objects = new Objects();
         }
 
+        public override void MousePressed(float x, float y, int button, bool isTouch)
+        {
+            base.MousePressed(x, y, button, isTouch);
+            g.Terrain.MousePressed(x, y, button, isTouch);
+        }
+
+        public override void MouseReleased(float x, float y, int button, bool isTouch)
+        {
+            base.MouseReleased(x, y, button, isTouch);
+            g.Terrain.MouseReleased(x, y, button, isTouch);
+        }
+
         public override void Update(float dt)
         {
             base.Update(dt);

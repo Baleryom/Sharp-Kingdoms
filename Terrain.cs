@@ -2,7 +2,7 @@
 
 namespace Sharp_Kingdoms
 {
-    public class Terrain : Scene
+    public class Terrain
     {
         Global g = Global.Instance;
         public Terrain()
@@ -68,9 +68,8 @@ namespace Sharp_Kingdoms
             }
         }
 
-        public override void MousePressed(float x, float y, int button, bool isTouch)
+        public void MousePressed(float x, float y, int button, bool isTouch)
         {
-            base.MouseReleased(x, y, button, isTouch);
             if (button == 1 && g.LocalX >= 0 && g.LocalY >= 0 && g.LocalX < ChunkWidth && g.LocalY < ChunkWidth)
             {
                 Utils.GetMousePositions();
@@ -78,26 +77,19 @@ namespace Sharp_Kingdoms
                 g.LocalY = Utils.Round(g.Iso.ScreenToIsoY(g.MouseX - 16 + g.ViewX, g.MouseY - 8 + g.ViewY), 0);
                 FirstLocationX = (int)g.LocalX;
                 FirstLocationY = (int)g.LocalY;
+                UpdateTerrain();
             }
         }
 
-        public override void MouseReleased(float x, float y, int button, bool isTouch)
+        public void MouseReleased(float x, float y, int button, bool isTouch)
         {
-            base.MouseReleased(x, y, button, isTouch);
             if (button == 1 && g.LocalX >= 0 && g.LocalY >= 0 && g.LocalX < ChunkWidth && g.LocalY < ChunkHeight)
             {
                 Utils.GetMousePositions();
                 LastLocationX = (int)g.LocalX;
                 LastLocationY = (int)g.LocalY;
-                LocationDistance = ((LastLocationX - FirstLocationX) + (LastLocationY - FirstLocationY)) / 2;
-                Angle = (float)Math.Atan2(LastLocationY - FirstLocationY, LastLocationX - FirstLocationX);
-                Angle = (float)((Angle * 180) / Math.PI);
-                Angle = Utils.Round(Angle, 0);
-                if (Angle < 0)
-                {
-                    Angle += 360;
-                }
-                GenerateWallPiece();
+                Utils.BrenDrawLine(FirstLocationX, FirstLocationY, LastLocationX, LastLocationY, 10);
+                UpdateTerrain();
             }
         }
 
@@ -156,28 +148,7 @@ namespace Sharp_Kingdoms
 
         public void Update()
         {
-            if (Mouse.IsDown(0))
-            {
-                if (g.LocalX >= 0 && g.LocalY >= 0 && g.LocalX < g.ChunkWidth && g.LocalY < g.ChunkHeight)
-                {
-                    Utils.GetMousePositions();
-                    g.LocalX = Utils.Round(g.Iso.ScreenToIsoX(g.MouseX - 16 + g.ViewX, g.MouseY - 8 + g.ViewY), 0);
-                    g.LocalY = Utils.Round(g.Iso.ScreenToIsoY(g.MouseX - 16 + g.ViewX, g.MouseY - 8 + g.ViewY), 0);
-                    g.Terrain.LastLocationX = (int)g.LocalX;
-                    g.Terrain.LastLocationY = (int)g.LocalY;
-                    g.Terrain.LocationDistance = (g.Terrain.LastLocationX - g.Terrain.FirstLocationX) + (g.Terrain.LastLocationY - g.Terrain.FirstLocationY);
-                    g.Terrain.Angle = (float)Math.Atan2(g.Terrain.LastLocationY - g.Terrain.FirstLocationY, g.Terrain.LastLocationX - g.Terrain.FirstLocationX);
-                    g.Terrain.Angle = (float)((g.Terrain.Angle * 180) / Math.PI);
-                    g.Terrain.Angle = Utils.Round(g.Terrain.Angle, 0);
-                    if (g.Terrain.Angle < 0)
-                    {
-                        g.Terrain.Angle += 360;
-                    }
-                    g.Terrain.GenerateWallPiece();
-                    //g.Terrain.TerrainChunk[(int)(Math.Floor(g.LocalX)), (int)(Math.Floor(g.LocalY))] = 9;
-                    g.Terrain.UpdateTerrain();
-                }
-            }
+            g.Terrain.UpdateTerrain();
         }
     }
 }
