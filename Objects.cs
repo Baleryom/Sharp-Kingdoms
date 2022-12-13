@@ -12,6 +12,11 @@ namespace Sharp_Kingdoms
         int ogY { get; set; }
         Image[,] ObjectChunk { get; set; }
         Image[] ObjectImage { get; set; } = new Image[2];
+
+        public Objects()
+        {
+            SetupObjects();
+        }
         private void InitializeFields()
         {
             canvas = Graphics.NewCanvas(1680, 1050);

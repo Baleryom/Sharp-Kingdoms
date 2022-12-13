@@ -18,11 +18,10 @@
 
         public override void Draw()
         {
-            
-            Graphics.Draw(g.TerrainImage, g.Iso.IsoToScreenX(g.LocalX, g.LocalY) - g.ViewX, g.Iso.IsoToScreenY(g.LocalX, g.LocalY) - g.ViewY,0,g.ScaleX);
             g.Terrain.DrawTerrain();
-            g.Objects.DrawObjects();
-            
+            Graphics.Draw(g.TerrainImage, g.Iso.IsoToScreenX(g.LocalX, g.LocalY) - g.ViewX, g.Iso.IsoToScreenY(g.LocalX, g.LocalY) - g.ViewY);
+            //g.Objects.DrawObjects();
+
             Graphics.Print("\n LocalX: " + g.LocalX +
                            "\n LocalY: " + g.LocalY +
                            "\n ViewX: " + g.ViewX +
@@ -62,10 +61,8 @@
             g.ScaleY = 1;
 
             g.Iso = new Isometric();
-            // It will generate the terrain
             g.Terrain = new Terrain();
             g.Objects = new Objects();
-            g.Objects.SetupObjects();
         }
 
         public override void Update(float dt)
@@ -88,6 +85,18 @@
             {
                 g.ViewX += 5;
             }
+            if (Keyboard.IsDown(KeyConstant.Escape))
+            {
+                Event.Quit();
+            }
+            if (Mouse.IsDown(0))
+            {
+                if (g.LocalX > 0 && g.LocalY > 0 && g.LocalX < g.ChunkWidth && g.LocalY < g.ChunkHeight)
+                {
+                    g.Terrain.TerrainChunk[(int)(Math.Floor(g.LocalX)), (int)(Math.Floor(g.LocalY))] = 9;
+                    g.Terrain.UpdateTerrain();
+                }
+            }
 
             //if (Keyboard.IsDown(KeyConstant.Up) || Keyboard.IsDown(KeyConstant.Down) || Keyboard.IsDown(KeyConstant.Left) || Keyboard.IsDown(KeyConstant.Right)
             //     || Keyboard.IsDown(KeyConstant.W) || Keyboard.IsDown(KeyConstant.S) || Keyboard.IsDown(KeyConstant.D) || Keyboard.IsDown(KeyConstant.A))
@@ -100,6 +109,7 @@
 
             g.LocalX = Round(g.Iso.ScreenToIsoX(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
             g.LocalY = Round(g.Iso.ScreenToIsoY(g.MouseX + g.ViewX, g.MouseY + g.ViewY), 0);
+
         }
 
         public override void WheelMoved(int x, int y)
