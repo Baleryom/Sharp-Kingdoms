@@ -1,6 +1,6 @@
 ﻿using Love;
 
-namespace Sharp_Kingdoms
+namespace Sharp_Kingdoms.Objects
 {
     public class Objects
     {
@@ -58,9 +58,9 @@ namespace Sharp_Kingdoms
             Graphics.SetCanvas(canvas);
             Graphics.Clear();
             Graphics.SetBlendMode(BlendMode.Alpha);
-            for(int i=0; i < g.ChunkWidth; i++)
+            for (int i = 0; i < g.ChunkWidth; i++)
             {
-                for(int j=0;j< g.ChunkHeight; j++)
+                for (int j = 0; j < g.ChunkHeight; j++)
                 {
                     Graphics.Draw(ObjectChunk[i, j], ogX + g.Iso.OgIsoToScreenX(i, j) - 77 + 16, ogY + g.Iso.OgIsoToScreenY(i, j) - 138 + 8);
                 }

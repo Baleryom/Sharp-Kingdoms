@@ -70,7 +70,7 @@ namespace Sharp_Kingdoms
 
         public void MousePressed(float x, float y, int button, bool isTouch)
         {
-            if (button == 1 && g.LocalX >= 0 && g.LocalY >= 0 && g.LocalX < ChunkWidth && g.LocalY < ChunkWidth)
+            if (button == 0 && g.LocalX >= 0 && g.LocalY >= 0 && g.LocalX < ChunkWidth && g.LocalY < ChunkWidth)
             {
                 Utils.GetMousePositions();
                 g.LocalX = Utils.Round(g.Iso.ScreenToIsoX(g.MouseX - 16 + g.ViewX, g.MouseY - 8 + g.ViewY), 0);
@@ -83,12 +83,12 @@ namespace Sharp_Kingdoms
 
         public void MouseReleased(float x, float y, int button, bool isTouch)
         {
-            if (button == 1 && g.LocalX >= 0 && g.LocalY >= 0 && g.LocalX < ChunkWidth && g.LocalY < ChunkHeight)
+            if (button == 0 && g.LocalX >= 0 && g.LocalY >= 0 && g.LocalX < ChunkWidth && g.LocalY < ChunkHeight)
             {
                 Utils.GetMousePositions();
                 LastLocationX = (int)g.LocalX;
                 LastLocationY = (int)g.LocalY;
-                Utils.BrenDrawLine(FirstLocationX, FirstLocationY, LastLocationX, LastLocationY, 10);
+                Utils.BrenDrawLine(FirstLocationX, FirstLocationY, LastLocationX, LastLocationY, 9);
                 UpdateTerrain();
             }
         }

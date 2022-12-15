@@ -2,6 +2,7 @@
 {
     using Love;
     using Sharp_Kingdoms;
+    using Sharp_Kingdoms.Objects;
     using System;
     using System.Numerics;
 

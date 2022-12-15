@@ -1,4 +1,5 @@
 ﻿using Love;
+using Sharp_Kingdoms.Objects;
 
 namespace Sharp_Kingdoms
 {
@@ -48,6 +49,6 @@ namespace Sharp_Kingdoms
         // Classes
         public Isometric Iso { get; set; }
         public Terrain Terrain { get; set; }
-        public Objects Objects { get; set; }
+        public Objects.Objects Objects { get; set; }
     }
 }
