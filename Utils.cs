@@ -46,7 +46,7 @@ namespace Sharp_Kingdoms
 
                 if (x0 == x1 && y0 == y1)
                 {
-                    t.TerrainChunk[x0 + 1, y0] = obj;
+                    t.TerrainChunk[x0 , y0] = obj;
                     break;
                 }
 
